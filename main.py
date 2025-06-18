@@ -15,7 +15,9 @@ def main():
     
     # Run detection pipeline
     image = load_image(IMAGE_PATH)
+    
     boxes, scores, labels = predictor.run_pipeline(image, TEXT_QUERIES)
+    print("pipeline run completed!")
     
     # Visualize results
     visualize_detections(image, boxes, scores, labels)

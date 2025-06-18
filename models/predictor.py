@@ -1,5 +1,5 @@
 import torch
-from config.constants import SCORE_THRESHOLD, NMS_THRESHOLD, DEVICE
+from config.constants import SCORE_THRESHOLD, DEVICE
 
 class Owlv2Predictor:
     def __init__(self, model, processor):
@@ -13,6 +13,7 @@ class Owlv2Predictor:
         self.model = model
         self.processor = processor
         self.model.eval()
+        print("OWLv2 model and processor initialized successfully.")
         
     def preprocess(self, image, texts):
         """
@@ -31,12 +32,15 @@ class Owlv2Predictor:
             text=texts, 
             return_tensors="pt"
         ).to(DEVICE)
+        print("preprocess completed!")
         return inputs, image.size[::-1]  # (height, width)
     
     def predict(self, inputs):
         """Run model inference on preprocessed inputs"""
         with torch.no_grad():
             outputs = self.model(**inputs)
+            
+        print("predict completed!")
         return outputs
     
     def postprocess(self, outputs, orig_size, texts):
@@ -66,10 +70,15 @@ class Owlv2Predictor:
         scores = results["scores"]
         labels = [texts[i] for i in results["labels"]]
         
+        print("postprocess completed!")
         return boxes, scores, labels
     
     def run_pipeline(self, image, texts):
         """Complete end-to-end detection pipeline"""
+        print("Running end-to-end detection pipeline...")
+        
         inputs, orig_size = self.preprocess(image, texts)
         outputs = self.predict(inputs)
+        
         return self.postprocess(outputs, orig_size, texts)
+        
