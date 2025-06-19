@@ -12,8 +12,10 @@ def choose_model():
 
             match user_input:
                 case 1:
+                    print("-->OWLv2 MODEL CHOOSED<--")
                     return Owlv2ModelLoader()
                 case 2:
+                    print("-->OWLvit MODEL CHOOSED<--")
                     return OwlvitModelLoader()
                 case _:
                     print("Invalid choice. Please select 1 or 2.")
@@ -27,8 +29,10 @@ def chose_task():
 
             match user_input:
                 case 1:
+                    print("-->DETECTION USING TEXT<--")
                     return detection_by_text()
                 case 2:
+                    print("-->DETECTION USING IMAGE<--")
                     return detection_by_image()
                 case _:
                     print("Invalid choice. Please select 1 or 2.")
@@ -59,14 +63,15 @@ def detection_by_text(IMAGE_PATH = None, TEXT_QUERIES = None):
         print("No detections found.")
         return
     print(f"Detected {len(boxes)} objects.")
-    print(f"Boxes: {boxes.tolist()}")
-    print(f"Scores: {scores.tolist()}")
-    print(f"Labels: {labels}")
+    # print(f"Boxes: {boxes.tolist()}")
+    # print(f"Scores: {scores.tolist()}")
+    # print(f"Labels: {labels}")
+    
     # Visualize detections
-    print("Visualizing detections...")
+    print("---|>Visualizing detections<|---")
     image = annotate_image(image, boxes, scores, labels, show_labels=True)
     display_result(image, save=True)
-    print("Detection completed") 
+    print("---|>Detection completed<|---") 
    
 def detection_by_image(TARGET_IMAGE = None, SOURCE_IMAGE = None):
     # loader = OwlvitModelLoader()
@@ -89,16 +94,17 @@ def detection_by_image(TARGET_IMAGE = None, SOURCE_IMAGE = None):
         print("No detections found.")
         return
     print(f"Detected {len(boxes)} objects.")
-    print(f"Boxes: {boxes.tolist()}")
-    print(f"Scores: {scores.tolist()}")
-    print(f"Labels: {labels}")
+    # print(f"Boxes: {boxes.tolist()}")
+    # print(f"Scores: {scores.tolist()}")
+    # print(f"Labels: {labels}")
     
     # Visualize detections
-    print("Visualizing detections...")
+    print("---|>Visualizing detections<|---")
     plot(target_image, boxes, scores, labels, show_labels=True)
 
 def main():
     chose_task()
+    print("----|>MODEL WORKED DONE<|----")
 
 if __name__ == "__main__":
     main()

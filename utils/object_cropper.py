@@ -65,11 +65,7 @@ def target_object_cropper(image):
     cropper = InteractiveCropper(image)
     
     target_object = cropper.crop_image()
-    print(type(target_object))
+    # print(type(target_object))
     return target_object
 
-
-# if __name__ == "__main__":
-#     cropped = target_object_cropper('sample/box.jpg')
-#     cropped.show()
     
