@@ -1,5 +1,5 @@
 import torch
-from config.constants import SCORE_THRESHOLD, DEVICE
+from config.constants import SCORE_THRESHOLD, NMS_THRESHOLD, DEVICE
 
 class ModelPredictor:
     def __init__(self, model, processor):
@@ -16,16 +16,19 @@ class ModelPredictor:
         
         print("model and processor initialized successfully.")
         
-    def preprocess(self, image, texts):
+    
+    def text_based_detection(self, image, texts):
         """
-        Prepare inputs for the model
+        Run text-based detection pipeline
         
         Args:
             image: PIL Image or image path
             texts: List of text queries (e.g., ["a car", "traffic light"])
         
         Returns:
-            Processed inputs and original image size
+            boxes: Detected bounding boxes
+            scores: Confidence scores
+            labels: Text labels
         """
         
         inputs = self.processor(
@@ -34,31 +37,14 @@ class ModelPredictor:
             return_tensors="pt"
         ).to(DEVICE)
         print("preprocess completed!")
-        return inputs, image.size[::-1]  # (height, width)
-    
-    def predict(self, inputs):
-        """Run model inference on preprocessed inputs"""
+
+        orig_size =  image.size[::-1]  # (height, width)
+
         with torch.no_grad():
             outputs = self.model(**inputs)
             
         print("predict completed!")
-        return outputs
-    
-    def postprocess(self, outputs, orig_size, texts):
-        """
-        Convert raw outputs to detection results
-        
-        Args:
-            outputs: Raw model outputs
-            orig_size: Original (height, width) of image
-            texts: Text queries used for detection
-        
-        Returns:
-            boxes: Final bounding boxes [xmin, ymin, xmax, ymax]
-            scores: Confidence scores
-            labels: Text labels
-        """
-        # Convert outputs to COCO format
+
         target_sizes = torch.tensor([orig_size])
         print("SCORE_THRESHOLD:", SCORE_THRESHOLD)
         results = self.processor.post_process_grounded_object_detection(
@@ -75,12 +61,40 @@ class ModelPredictor:
         print("postprocess completed!")
         return boxes, scores, labels
     
-    def run_pipeline(self, image, texts):
-        """Complete end-to-end detection pipeline"""
-        print("Running end-to-end detection pipeline...")
+    def image_based_detection(self, target_image, source_image):
+        """
+        detects objets in target_image based on source_image
         
-        inputs, orig_size = self.preprocess(image, texts)
-        outputs = self.predict(inputs)
+        Args:
+            target_image: PIL Image or image path for target
+            source_image: PIL Image or image path for source
         
-        return self.postprocess(outputs, orig_size, texts)
+        Returns:
+            boxes: Detected bounding boxes
+            scores: Confidence scores
+            labels: Text labels
+        """
+        inputs = self.processor(
+            images=target_image,
+            query_images=source_image,
+            return_tensors="pt"
+        ).to(DEVICE)
+
+        with torch.no_grad():
+            outputs = self.model.image_guided_detection(**inputs)
+
+        target_sizes = torch.tensor([target_image.size[::-1]]).to(DEVICE)
+        results = self.processor.post_process_image_guided_detection(
+            outputs=outputs,
+            target_sizes=target_sizes,
+            threshold=SCORE_THRESHOLD,
+            nms_threshold=NMS_THRESHOLD
+        )[0]
+        
+        # Extract predictions
+        boxes = results["boxes"]
+        scores = results["scores"]
+        labels = results["labels"]
+        
+        return boxes, scores, labels
         

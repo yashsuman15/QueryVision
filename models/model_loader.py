@@ -15,7 +15,7 @@ class Owlv2ModelLoader:
         return self.model, self.processor
     
 class OwlvitModelLoader:
-    """Class to load OWLv2 model and processor"""
+    """Class to load OWLvit model and processor"""
     def __init__(self):
         """Initialize model and processor with pretrained weights"""
         self.model = OwlViTForObjectDetection.from_pretrained(OWL_VIT).to(DEVICE)
