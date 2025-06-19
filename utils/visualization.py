@@ -59,6 +59,7 @@ def plot(image, boxes, scores, labels, show_labels=True, save=True):
         plt.savefig("detection_by_image_results.jpg", bbox_inches='tight', pad_inches=0)
         print("Image saved to detection_by_image_results.jpg")
     plt.show()
+    
 # --------------------------------------------------------------------------------------
 
 def annotate_image(image, boxes, scores, labels, show_labels=False):
@@ -121,7 +122,7 @@ def annotate_image(image, boxes, scores, labels, show_labels=False):
     return image
 
 
-def display_result(image, save=True, save_path="detection_results.jpg"):
+def display_result(image, save=True, save_path="detection_by_text_results.jpg"):
     """
     Display and optionally save annotated PIL image.
 

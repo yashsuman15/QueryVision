@@ -1,7 +1,9 @@
 from models.model_loader import Owlv2ModelLoader, OwlvitModelLoader
 from models.modelpredictor import ModelPredictor
-from utils.image_utils import load_image, crop_object
+from utils.image_utils import load_image_by_path
+from utils.object_cropper import target_object_cropper
 from utils.visualization import plot, annotate_image, display_result
+import easygui
 
 def choose_model():
     while True:
@@ -42,11 +44,11 @@ def detection_by_text(IMAGE_PATH = None, TEXT_QUERIES = None):
     predictor = ModelPredictor(model, processor)
     
     # Configuration
-    IMAGE_PATH = "sample/coin.jpg"
+    IMAGE_PATH = easygui.fileopenbox(title="Select an Image", filetypes=["*.png", "*.jpg", "*.jpeg", "*.bmp", "*.gif"])
     TEXT_QUERIES = ["coin"]
     
     # Run detection pipeline
-    image = load_image(IMAGE_PATH)
+    image = load_image_by_path(IMAGE_PATH)
     
     boxes, scores, labels = predictor.text_based_detection(image, TEXT_QUERIES)
     print("pipeline run completed!")
@@ -72,11 +74,11 @@ def detection_by_image(TARGET_IMAGE = None, SOURCE_IMAGE = None):
     model, processor = loader.get_components()
     predictor = ModelPredictor(model, processor)
     
-    TARGET_IMAGE = "sample/boxes.jpg"
-    SOURCE_IMAGE = crop_object("sample/box.jpg")
+    SOURCE_IMAGE = target_object_cropper(easygui.fileopenbox(title="Select an Source/reference Image for feature extraction", filetypes=["*.png", "*.jpg", "*.jpeg", "*.bmp", "*.gif"]))
+    TARGET_IMAGE = easygui.fileopenbox(title="Select an Image in which object need to be detected", filetypes=["*.png", "*.jpg", "*.jpeg", "*.bmp", "*.gif"])
     
-    target_image = load_image(TARGET_IMAGE)
-    source_image = load_image(SOURCE_IMAGE)
+    target_image = load_image_by_path(TARGET_IMAGE)
+    source_image = SOURCE_IMAGE
     
     boxes, scores, labels = predictor.image_based_detection(target_image, source_image)
     print("pipeline run completed!")

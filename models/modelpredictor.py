@@ -1,5 +1,5 @@
 import torch
-from config.constants import SCORE_THRESHOLD, NMS_THRESHOLD, DEVICE
+from config.constants import TEXT_BASED_SCORE_THRESHOLD, IMAGE_BASED_SCORE_THRESHOLD,NMS_THRESHOLD, DEVICE
 
 class ModelPredictor:
     def __init__(self, model, processor):
@@ -46,10 +46,10 @@ class ModelPredictor:
         print("predict completed!")
 
         target_sizes = torch.tensor([orig_size])
-        print("SCORE_THRESHOLD:", SCORE_THRESHOLD)
+        print("SCORE_THRESHOLD:", TEXT_BASED_SCORE_THRESHOLD)
         results = self.processor.post_process_grounded_object_detection(
             outputs=outputs, 
-            threshold=SCORE_THRESHOLD,
+            threshold=TEXT_BASED_SCORE_THRESHOLD,
             target_sizes=target_sizes
         )[0]
         
@@ -87,7 +87,7 @@ class ModelPredictor:
         results = self.processor.post_process_image_guided_detection(
             outputs=outputs,
             target_sizes=target_sizes,
-            threshold=SCORE_THRESHOLD,
+            threshold=IMAGE_BASED_SCORE_THRESHOLD,
             nms_threshold=NMS_THRESHOLD
         )[0]
         

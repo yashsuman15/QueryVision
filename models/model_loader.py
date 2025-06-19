@@ -8,7 +8,7 @@ class Owlv2ModelLoader:
         """Initialize model and processor with pretrained weights"""
         self.model = Owlv2ForObjectDetection.from_pretrained(OWL_V2).to(DEVICE)
         self.processor = Owlv2Processor.from_pretrained(OWL_V2)
-        print("MODEL:", OWL_V2, "loaded successfully!")
+        print("+++++++++++| MODEL:", OWL_V2, "loaded successfully! |+++++++++++")
 
     def get_components(self):
         """Return the model and processor components"""
@@ -20,7 +20,7 @@ class OwlvitModelLoader:
         """Initialize model and processor with pretrained weights"""
         self.model = OwlViTForObjectDetection.from_pretrained(OWL_VIT).to(DEVICE)
         self.processor = OwlViTProcessor.from_pretrained(OWL_VIT)
-        print("MODEL:", OWL_VIT, "loaded successfully!")
+        print("+++++++++++| MODEL:", OWL_VIT, "loaded successfully! |+++++++++++")
 
     def get_components(self):
         """Return the model and processor components"""
