@@ -1,6 +1,6 @@
 from models.model_loader import Owlv2ModelLoader, OwlvitModelLoader
 from models.modelpredictor import ModelPredictor
-from utils.image_utils import load_image
+from utils.image_utils import load_image, crop_object
 from utils.visualization import plot, annotate_image, display_result
 
 def choose_model():
@@ -73,7 +73,7 @@ def detection_by_image(TARGET_IMAGE = None, SOURCE_IMAGE = None):
     predictor = ModelPredictor(model, processor)
     
     TARGET_IMAGE = "sample/boxes.jpg"
-    SOURCE_IMAGE = "sample/box.jpg"
+    SOURCE_IMAGE = crop_object("sample/box.jpg")
     
     target_image = load_image(TARGET_IMAGE)
     source_image = load_image(SOURCE_IMAGE)
