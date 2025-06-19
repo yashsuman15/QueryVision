@@ -1,7 +1,7 @@
 import torch
 from config.constants import SCORE_THRESHOLD, DEVICE
 
-class Owlv2Predictor:
+class ModelPredictor:
     def __init__(self, model, processor):
         """
         Initialize predictor with loaded model components
@@ -13,7 +13,8 @@ class Owlv2Predictor:
         self.model = model
         self.processor = processor
         self.model.eval()
-        print("OWLv2 model and processor initialized successfully.")
+        
+        print("model and processor initialized successfully.")
         
     def preprocess(self, image, texts):
         """
@@ -59,6 +60,7 @@ class Owlv2Predictor:
         """
         # Convert outputs to COCO format
         target_sizes = torch.tensor([orig_size])
+        print("SCORE_THRESHOLD:", SCORE_THRESHOLD)
         results = self.processor.post_process_grounded_object_detection(
             outputs=outputs, 
             threshold=SCORE_THRESHOLD,
