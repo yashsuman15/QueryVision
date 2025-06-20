@@ -7,7 +7,7 @@ An object detection application using OWL-ViT and OWLv2 models for text-based an
 QueryVision detects objects in images using two methods:
 
 1. **Text-based detection** - Find objects by describing them with text (e.g., "coin", "person", "car")
-2. **Image-based detection** - Find objects by providing a reference image of what you're looking for
+2. **Image-based detection** - Find objects by providing a crop part of reference image of what you're looking for in a target image
 
 ## Requirements
 
@@ -53,8 +53,8 @@ uv run main.py
    - Option 2: Image-based detection
 
 2. Select model:
-   - OWLv2 (recommended)
-   - OWL-ViT
+   - OWLv2  (best for text based detection)
+   - OWL-ViT (best image based detection)
 
 3. For text-based detection:
    - Select image file
@@ -77,3 +77,20 @@ Edit `config/constants.py` to adjust:
 - Console output with detection results
 - Annotated images saved as JPG files
 - Visual display of detections with bounding boxes
+
+## Project Structure
+
+```
+QueryVision/
+├── config/
+│   └── constants.py          # Configuration settings
+├── models/
+│   ├── model_loader.py       # Model initialization classes
+│   └── modelpredictor.py     # Prediction logic
+├── utils/
+│   ├── image_utils.py        # Image loading utilities
+│   ├── object_cropper.py     # Interactive cropping tool
+│   └── visualization.py      # Result visualization
+├── main.py                   # Main application entry point
+└── pyproject.toml           # Project dependencies
+```
