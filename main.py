@@ -38,6 +38,32 @@ def chose_task():
                     print("Invalid choice. Please select 1 or 2.")
         except ValueError:
             print("Invalid input. Please enter a valid integer.")
+            
+def get_queries(prompt: str) -> list[str]:
+    """
+    Prompts for a comma-separated list of strings, then:
+      - Splits on commas
+      - Strips leading/trailing whitespace
+      - Discards empty items
+      - Repeats until at least one valid item is entered
+    
+    Returns:
+        List of non-empty, stripped strings.
+    """
+    while True:
+        raw = input(prompt)
+        if not isinstance(raw, str):
+            print("⚠️  Input must be a string. Please try again.")
+            continue
+
+        # Split, strip, and filter out empty strings
+        items = [item.strip() for item in raw.split(",")]
+        items = [item for item in items if item]
+
+        if not items:
+            print("⚠️  You must enter at least one item. Please try again.")
+        else:
+            return items
 
 
 def detection_by_text(IMAGE_PATH = None, TEXT_QUERIES = None):
@@ -49,7 +75,7 @@ def detection_by_text(IMAGE_PATH = None, TEXT_QUERIES = None):
     
     # Configuration
     IMAGE_PATH = easygui.fileopenbox(title="Select an Image", filetypes=["*.png", "*.jpg", "*.jpeg", "*.bmp", "*.gif"])
-    TEXT_QUERIES = ["coin"]
+    TEXT_QUERIES = get_queries("Enter object names to detect (comma-separated): ")
     
     # Run detection pipeline
     image = load_image_by_path(IMAGE_PATH)
