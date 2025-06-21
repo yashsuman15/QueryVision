@@ -46,7 +46,7 @@ class ModelPredictor:
         print("predict completed!")
 
         target_sizes = torch.tensor([orig_size])
-        print("SCORE_THRESHOLD:", TEXT_BASED_SCORE_THRESHOLD)
+        
         results = self.processor.post_process_grounded_object_detection(
             outputs=outputs, 
             threshold=TEXT_BASED_SCORE_THRESHOLD,
