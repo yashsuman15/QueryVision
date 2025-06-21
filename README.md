@@ -85,12 +85,16 @@ QueryVision/
 ├── config/
 │   └── constants.py          # Configuration settings
 ├── models/
+|   ├── __int__.py
 │   ├── model_loader.py       # Model initialization classes
+|   ├── model_task.py         # Model task selections
 │   └── modelpredictor.py     # Prediction logic
 ├── utils/
 │   ├── image_utils.py        # Image loading utilities
 │   ├── object_cropper.py     # Interactive cropping tool
+|   ├── user_inputs.py        # take inputs from user
 │   └── visualization.py      # Result visualization
 ├── main.py                   # Main application entry point
-└── pyproject.toml           # Project dependencies
+├── results                   # stores results annotated images
+└── pyproject.toml            # Project dependencies
 ```
