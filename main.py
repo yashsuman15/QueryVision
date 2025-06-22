@@ -8,10 +8,10 @@ def chose_task():
 
             match user_input:
                 case 1:
-                    print("-->DETECTION USING TEXT<--")
+                    print("---| DETECTION USING TEXT |---")
                     return detection_by_text
                 case 2:
-                    print("-->DETECTION USING IMAGE<--")
+                    print("---| DETECTION USING IMAGE |---")
                     return detection_by_image
                 case _:
                     print("Invalid choice. Please select 1 or 2.")
@@ -30,7 +30,7 @@ def main():
     
     display_result(final_result_img)
     
-    print("---|>MODEL WORKED DONE<|---")
+    print("---| MODEL WORKED DONE |---")
 
 if __name__ == "__main__":
     main()

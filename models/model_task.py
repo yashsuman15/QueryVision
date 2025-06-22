@@ -30,7 +30,7 @@ def detection_by_text():
         return
     print(f"Detected {len(boxes)} objects.")
     
-    print("---|>Detection completed<|---")
+    print("---|> Detection completed <|---")
     return image, boxes, scores, labels
    
 def detection_by_image():
